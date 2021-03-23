@@ -32,6 +32,7 @@ class LevelEditorMenuBar : KoinComponent {
                         selectedPath += ".json"
                     val levelModel = levelRepository.createNewLevel(File(selectedPath))
                     levelViewModel.levelModel.value = levelModel
+                    levelViewModel.levelName.value = fileChooser.selectedFile.name
                     println("New file created!")
                 }
             }, shortcut = KeyStroke.getKeyStroke("control N")
