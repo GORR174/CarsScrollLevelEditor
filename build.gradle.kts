@@ -20,6 +20,9 @@ dependencies {
     // Koin
     implementation("io.insert-koin:koin-core-ext:3.0.1-beta-2")
 
+    // Gson
+    implementation("com.google.code.gson:gson:2.8.6")
+
     testImplementation(kotlin("test-junit5"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
