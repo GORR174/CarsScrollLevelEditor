@@ -25,7 +25,7 @@ fun main() {
         printLogger()
         modules(appModules)
 
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
 
         Window.init()
     }

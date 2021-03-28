@@ -18,6 +18,8 @@ class LevelViewModel(private val levelRepository: LevelRepository) : ViewModel()
     var saved = mutableStateOf(false)
     private var nextTimeToSavedUpdate = 0L
 
+    val selectedWave = mutableStateOf<WaveModel?>(null)
+
     fun addWave(repeats: Int = 1) {
         if (levelModel.value != null) {
             val newWaveModel = WaveModel(1, listOf())
@@ -25,6 +27,14 @@ class LevelViewModel(private val levelRepository: LevelRepository) : ViewModel()
 
             levelModel.value = LevelModel(newWavesData)
         }
+    }
+
+    fun selectWave(wave: WaveModel) {
+        selectedWave.value = wave
+    }
+
+    fun unselectWave() {
+        selectedWave.value = null
     }
 
     fun createNewLevel(levelFile: File) {

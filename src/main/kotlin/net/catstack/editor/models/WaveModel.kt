@@ -1,6 +1,6 @@
 package net.catstack.editor.models
 
-data class WaveModel(
+class WaveModel(
     val repeats: Int,
     val waveElements: List<WaveEntityModel>,
 )
