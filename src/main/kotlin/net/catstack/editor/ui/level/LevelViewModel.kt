@@ -1,6 +1,9 @@
 package net.catstack.editor.ui.level
 
 import androidx.compose.runtime.mutableStateOf
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import net.catstack.editor.common.ViewModel
 import net.catstack.editor.domain.LevelRepository
 import net.catstack.editor.models.LevelModel
@@ -11,6 +14,9 @@ class LevelViewModel(private val levelRepository: LevelRepository) : ViewModel()
     val levelModel = mutableStateOf<LevelModel?>(null)
     val levelName = mutableStateOf("")
     private var levelFile: File? = null
+
+    var saved = mutableStateOf(false)
+    private var nextTimeToSavedUpdate = 0L
 
     fun addWave(repeats: Int = 1) {
         if (levelModel.value != null) {
@@ -49,6 +55,17 @@ class LevelViewModel(private val levelRepository: LevelRepository) : ViewModel()
         levelRepository.saveLevel(levelFile, levelModel.value ?: return false)
         this.levelName.value = levelFile.name
         this.levelFile = levelFile
+
+        saved.value = true
+        nextTimeToSavedUpdate = System.currentTimeMillis() + 3000
+
+        GlobalScope.launch(Dispatchers.IO) {
+            Thread.sleep(3000)
+            if (System.currentTimeMillis() >= nextTimeToSavedUpdate) {
+                saved.value = false
+            }
+        }
+
         return true
     }
 }

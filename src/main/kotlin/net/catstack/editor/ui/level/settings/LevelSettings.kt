@@ -22,9 +22,11 @@ private fun LevelSettingsView(viewModel: LevelViewModel) {
     Column(modifier = Modifier.fillMaxSize()) {
         val levelModel = remember { viewModel.levelModel }.value ?: return
         val levelName by remember { viewModel.levelName }
+        val saved by remember { viewModel.saved }
+        val savedText = if (saved) " - saved!" else ""
 
         Text(
-            levelName,
+            levelName + savedText,
             modifier = Modifier.align(Alignment.CenterHorizontally),
             style = MaterialTheme.typography.h6
         )
@@ -62,7 +64,7 @@ private fun LevelSettingsView(viewModel: LevelViewModel) {
                 },
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
-                Text("Button")
+                Text("New wave")
             }
         }
     }
