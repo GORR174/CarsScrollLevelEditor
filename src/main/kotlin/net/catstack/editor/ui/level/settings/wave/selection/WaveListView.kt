@@ -1,4 +1,4 @@
-package net.catstack.editor.ui.level.settings
+package net.catstack.editor.ui.level.settings.wave.selection
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,7 +23,6 @@ import net.catstack.editor.ui.level.LevelViewModel
 @Composable
 fun WavesList(levelModel: LevelModel, viewModel: LevelViewModel) {
     Column(modifier = Modifier.fillMaxSize()) {
-        Divider(modifier = Modifier.fillMaxWidth())
         levelModel.wavesData.forEachIndexed { index, waveModel ->
             WavesListItem(waveModel, viewModel, index)
         }

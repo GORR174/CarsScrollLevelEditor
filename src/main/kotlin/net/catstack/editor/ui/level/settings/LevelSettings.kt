@@ -1,8 +1,7 @@
 package net.catstack.editor.ui.level.settings
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -12,60 +11,35 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.unit.dp
 import net.catstack.editor.Window
+import net.catstack.editor.ui.components.Title
 import net.catstack.editor.ui.level.LevelViewModel
+import net.catstack.editor.ui.level.settings.wave.selection.WaveSelection
+import net.catstack.editor.ui.level.settings.wave.settings.WaveSettings
 
 @Composable
 private fun LevelSettingsView(viewModel: LevelViewModel) {
     Column(modifier = Modifier.fillMaxSize()) {
         Window.window.keyboard.setShortcut(Key.Escape, viewModel::unselectWave)
 
-        LevelName(viewModel, Modifier.align(Alignment.CenterHorizontally))
+        LevelName(viewModel)
 
-        WavesList(
-            viewModel,
-            Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .padding(top = 16.dp)
-        )
-
-        Column(modifier = Modifier.fillMaxWidth().height(60.dp), verticalArrangement = Arrangement.Center) {
-            NewWaveButton(viewModel, modifier = Modifier.align(Alignment.CenterHorizontally))
+        Row(Modifier.fillMaxSize()) {
+            WaveSelection(viewModel)
+            if (viewModel.selectedWave.value != null) {
+                Divider(Modifier.width(2.dp).fillMaxHeight())
+                WaveSettings(viewModel)
+            }
         }
     }
 }
 
 @Composable
-private fun LevelName(viewModel: LevelViewModel, modifier: Modifier = Modifier) {
+private fun LevelName(viewModel: LevelViewModel) {
     val levelName by remember { viewModel.levelName }
     val saved by remember { viewModel.saved }
     val savedText = if (saved) " - saved!" else ""
 
-    Text(
-        levelName + savedText,
-        modifier = modifier,
-        style = MaterialTheme.typography.h6
-    )
-}
-
-@Composable
-private fun WavesList(viewModel: LevelViewModel, modifier: Modifier = Modifier) {
-    val levelModel = remember { viewModel.levelModel }.value ?: return
-
-    Text("Waves:")
-    Column(modifier = modifier) {
-        WavesList(levelModel, viewModel)
-    }
-}
-
-@Composable
-private fun NewWaveButton(viewModel: LevelViewModel, modifier: Modifier = Modifier) {
-    Button(
-        onClick = viewModel::addWave,
-        modifier = modifier
-    ) {
-        Text("New wave")
-    }
+    Title(levelName + savedText)
 }
 
 @Composable
@@ -74,7 +48,7 @@ fun LevelSettings(viewModel: LevelViewModel) {
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .padding(16.dp)
+            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
     ) {
         if (viewModel.levelModel.value != null) {
             LevelSettingsView(viewModel)
